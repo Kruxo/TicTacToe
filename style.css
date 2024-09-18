@@ -1,0 +1,146 @@
+* {
+    font-family: 'Source Code Pro', monospace;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #1a1a1a; 
+    color: #f4f4f4; 
+    font-family: 'Source Code Pro', monospace; 
+    font-size: 18px;
+    text-shadow: 2px 2px 0px #ff0077; 
+
+    display: flex; /*To initialize flexbox*/
+    justify-content: center; /*Then we can center everything with this code from left to right*/
+    align-items: center; /*This centers everything from top to bottom, but it needs a height given to the body to work*/
+    flex-direction: column; /*To add everything on top of each other*/
+    height: 100vh; 
+}
+
+h1 {
+    font-size: 50px;
+    color: #ffcc00;
+    text-shadow: 4px 4px 0px #ff0077, 6px 6px 10px rgba(255, 0, 119, 0.5); /* Double shadow for neon effect */
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+/* Info and Score Section */
+#info {
+    font-size: 24px;
+    color: #faff00; 
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.8); 
+    font-weight: bold;
+    display: flex; 
+    align-items: center; 
+}
+
+.circle-info{
+    font-size: 24px; 
+    color: #00ff99; 
+    font-weight: bold; 
+    text-shadow: 0 0 10px rgba(0, 255, 153, 0.8); 
+
+}
+
+.cross-info {
+    font-size: 24px; 
+    color: #ff0077; 
+    font-weight: bold; 
+    text-shadow: 0 0 10px rgb(255, 0, 64); 
+
+}
+
+#scoreBoard {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    color: #ffcc00;
+    margin-top: 20px;
+}
+
+#playerScore, #cpuScore {
+    color: #faff00; 
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+}
+
+/* Retro Styled GameBoard, It's the container that has everything in it */
+#gameBoard {
+    width: 300px;
+    height: 300px;
+    background-color: #333333;
+    border: 4px solid #ffcc00;
+    box-shadow: 0px 0px 10px 5px #ff0077; 
+    display: flex;
+    flex-wrap: wrap; /*To get the squares inside to a 3x3 format*/
+}
+
+/* Retro Styled Squares */
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: #444444;
+    border: 2px solid #ff0077;
+    box-sizing: border-box; /*This to make sure that the squares keeps its 3x3 format and doesnt push down the squares because of the border solid. Basically keeps the border on the inside*/
+    display: flex; /*All three flex properties needed to get the objects inside the square to be centered*/
+    justify-content: center; /*Like before, we need a height and a width for this to work*/
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.square:hover {
+    background-color: #555555;
+}
+
+/* Retro Styled X and O */
+.circle, .cross {
+    animation: appear 0.3s cubic-bezier(0.5, 1.8, 0.1, 1.1);
+    font-size: 90px;
+    font-weight: bold;
+}
+
+.circle {
+    color: #00ff99;
+    text-shadow: 2px 2px 0px #009966; 
+}
+
+.cross {
+    color: #ff0077;
+    text-shadow: 2px 2px 0px #ffcc00;
+}
+
+/* Keyframe Animation for Appearing Effect */
+@keyframes appear {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Reset Button Retro Style */
+button {
+    background-color: #ffcc00;
+    color: #1a1a1a;
+    font-size: 20px;
+    font-family: 'Source Code Pro', monospace;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    box-shadow: 2px 2px 0px #ff0077, 4px 4px 10px rgba(255, 0, 119, 0.5);
+    transition: transform 0.1s ease;
+}
+
+button:hover {
+    transform: scale(1.1); 
+    background-color: #00ff99;
+    color: #1a1a1a;
+    box-shadow: 2px 2px 0px #009966, 4px 4px 10px rgba(0, 255, 153, 0.5);
+}
