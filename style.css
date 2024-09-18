@@ -22,7 +22,7 @@ h1 {
     font-size: 50px;
     color: #ffcc00;
     text-shadow: 4px 4px 0px #ff0077, 6px 6px 10px rgba(255, 0, 119, 0.5); /* Double shadow for neon effect */
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     letter-spacing: 2px;
 }
 
@@ -82,7 +82,7 @@ h1 {
 .square {
     width: 100px;
     height: 100px;
-    background-color: #444444;
+    background-color: #303030;
     border: 2px solid #ff0077;
     box-sizing: border-box; /*This to make sure that the squares keeps its 3x3 format and doesnt push down the squares because of the border solid. Basically keeps the border on the inside*/
     display: flex; /*All three flex properties needed to get the objects inside the square to be centered*/
@@ -92,7 +92,7 @@ h1 {
 }
 
 .square:hover {
-    background-color: #555555;
+    background-color: #3f3f3f;
 }
 
 /* Retro Styled X and O */
@@ -143,4 +143,14 @@ button:hover {
     background-color: #00ff99;
     color: #1a1a1a;
     box-shadow: 2px 2px 0px #009966, 4px 4px 10px rgba(0, 255, 153, 0.5);
+}
+
+.winning-square {
+    background-color: yellow; /* Or any color you'd like for the highlight */
+    animation: highlights 0.5s ease-in-out infinite alternate; /* Optional animation */
+}
+
+@keyframes highlights {
+    0% { background-color: yellow; }
+    100% { background-color: orange; }
 }

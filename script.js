@@ -34,6 +34,7 @@ function addGo(e){ // e.target is the exact div that has been clicked on, if we 
     goDisplay.innerText = "O"
     go = "cross"
     e.target.append(goDisplay)
+    document.getElementById("playerClick").play();
     
     display(`CPU's turn`)
     e.target.removeEventListener("click", addGo) // Removes the addeventlister so we cant click on the same square again
@@ -66,19 +67,29 @@ function checkScore() {
 
         if (circleWins) {
             display("Player&nbspwins!")
+            array.forEach(cell => {
+                allSquares[cell].classList.add('winning-square');
+            });
             isGameWon = true;
             allSquares.forEach(square => 
                 square.replaceWith(square.cloneNode(true))) // clone the square and removes existing eventlisteners on it to stop the game
-            resetBtn.innerText = "Play again!"
+
+                resetBtn.innerText = "Play again!"
             playerScore.innerText ++;
+            document.getElementById("playerWin").play();
             }
         else if (crossWins) {
             display("CPU&nbspwins!")
             isGameWon = true;
+            array.forEach(cell => {
+                allSquares[cell].classList.add('winning-square');
+            });
+
             allSquares.forEach(square => 
                 square.replaceWith(square.cloneNode(true)))
             resetBtn.innerText = "Play again!"
             cpuScore.innerText ++;
+            document.getElementById("cpuWin").play();
             }
         
     })
@@ -95,6 +106,7 @@ function checkScore() {
             allSquares.forEach(square => 
                 square.replaceWith(square.cloneNode(true)))
             resetBtn.innerText = "Play again!"
+            document.getElementById("draw").play();
         }
     }
 
@@ -115,6 +127,7 @@ function cpuMove() {
         goDisplay.classList.add("cross"); // CPU is cross
         goDisplay.innerText = "X"
         randomSquare.append(goDisplay);
+        document.getElementById("cpuClick").play();
         randomSquare.removeEventListener("click", addGo); // Disable future clicks on this square
 
         go = "circle"; // Switch back to player's turn
@@ -128,7 +141,6 @@ function isGameOver() {
     return message.includes("wins") || message.includes("draw");
 }
 
-
 resetBtn.addEventListener("click", () => {
     const allSquares = document.querySelectorAll(".square");
     
@@ -136,6 +148,7 @@ resetBtn.addEventListener("click", () => {
     allSquares.forEach(square => {
         square.innerHTML = ""; // This removes any inner content, basically sets it to an empty string
         square.addEventListener("click", addGo); // Re-enable the click event listener
+        square.classList.remove('winning-square');
     });
 
     // Reset the turn to "circle"
