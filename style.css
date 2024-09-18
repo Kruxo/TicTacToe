@@ -146,11 +146,17 @@ button:hover {
 }
 
 .winning-square {
-    background-color: yellow; /* Or any color you'd like for the highlight */
-    animation: highlights 0.5s ease-in-out infinite alternate; /* Optional animation */
+    background-color: yellow; 
+    animation: highlights 0.5s ease-in-out infinite alternate; 
 }
 
 @keyframes highlights {
     0% { background-color: yellow; }
     100% { background-color: orange; }
+}
+
+#credits {
+padding-top: 50px;
+font-size: 8px;
+text-shadow: none;
 }
