@@ -6,8 +6,6 @@ let playerScore = document.getElementById("playerScore")
 let cpuScore = document.getElementById("cpuScore")
 let go = "circle"
 
-playerScore.innerText += 0
-cpuScore.innerText += 0
 display("Player's turn")
 createBoard()
 
@@ -29,7 +27,7 @@ function createBoard() {
 }
 
 function addGo(e){ // e.target is the exact div that has been clicked on, if we use only e as argument we can see all the information on that clicked square in inspecter tools
-    const goDisplay = document.createElement("p") //creates a p tag and appends it on the square thats clicked on
+    const goDisplay = document.createElement("p") // Creates a p tag and appends it on the square thats clicked on
     goDisplay.classList.add(go) // go has "circle" as a string so we are adding the .circle css properties in this case
     goDisplay.innerText = "O"
     go = "cross"
@@ -38,7 +36,6 @@ function addGo(e){ // e.target is the exact div that has been clicked on, if we 
     
     display(`CPU's turn`)
     e.target.removeEventListener("click", addGo) // Removes the addeventlister so we cant click on the same square again
-    e.target.di
 
     checkScore()
     
@@ -65,32 +62,18 @@ function checkScore() {
         const crossWins = array.every(cell => allSquares[cell].firstChild?.classList.contains("cross"))
 
         if (circleWins) {
-            isGameWon = true
-            disableUserClicks()
-            display("Player&nbspwins!")
-            array.forEach(cell => {
-                allSquares[cell].classList.add('winning-square')
-            });
-            allSquares.forEach(square => 
-                square.replaceWith(square.cloneNode(true))) // clone the square and removes existing eventlisteners on it to stop the game
-                resetBtn.innerText = "Play again!"
-            playerScore.innerText ++
-            document.getElementById("playerWin").play()
-            }
-        else if (crossWins) {
             isGameWon = true;
-            disableUserClicks()
-            display("CPU&nbspwins!")
+            handleWin("Player");
             array.forEach(cell => {
-                allSquares[cell].classList.add('winning-square')
+                allSquares[cell].classList.add('winning-square');
             });
-
-            allSquares.forEach(square => 
-                square.replaceWith(square.cloneNode(true)))
-            resetBtn.innerText = "Play again!"
-            cpuScore.innerText ++
-            document.getElementById("cpuWin").play()
-            }
+        } else if (crossWins) {
+            isGameWon = true;
+            handleWin("CPU");
+            array.forEach(cell => {
+                allSquares[cell].classList.add('winning-square');
+            });
+        }
         
     })
 
@@ -103,8 +86,6 @@ function checkScore() {
 
         if(allSquaresFilled) {
             display("It's a draw")
-            allSquares.forEach(square => 
-                square.replaceWith(square.cloneNode(true)))
             disableUserClicks()
             resetBtn.innerText = "Play again!"
             document.getElementById("draw").play();
@@ -112,6 +93,19 @@ function checkScore() {
     }
 
 }   
+
+function handleWin(winner) {
+    disableUserClicks();
+    display(`${winner}&nbspwins!`);
+    if (winner === "Player") {
+        playerScore.innerText++;
+        document.getElementById("playerWin").play();
+    } else {
+        cpuScore.innerText++;
+        document.getElementById("cpuWin").play();
+    }
+    resetBtn.innerText = "Play again!";
+}
 
 function cpuMove() {
     const allSquares = document.querySelectorAll(".square")
@@ -153,13 +147,13 @@ resetBtn.addEventListener("click", () => {
     // Clear all squares by removing any children (circle/cross) inside the square
     allSquares.forEach(square => {
         square.innerHTML = "" // This removes any inner content, basically sets it to an empty string
-        square.addEventListener("click", addGo) // Re-enable the click event listener
         square.classList.remove('winning-square')
     });
 
     // Reset the turn to "circle"
     go = "circle";
     display(`Player's turn`)
+    enableUserClicks()
     resetBtn.innerText = "Reset Game"
 });
 
