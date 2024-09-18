@@ -19,7 +19,7 @@ function createBoard() {
     // Creates 9 empty divs for each items in the array and appends it to the gameboard
     startCells.forEach( (cell, index) => {
         const cellElement = document.createElement("div")
-        cellElement.classList.add("square") // Creates and adds css to this element
+        cellElement.classList.add("square") // Classlist adds css to the element
         cellElement.id = index // Gives each square cells an index from 0-8
         cellElement.addEventListener("click", addGo)
         gameBoard.append(cellElement)
@@ -27,15 +27,15 @@ function createBoard() {
 }
 
 function addGo(e){ // e.target is the exact div that has been clicked on, if we use only e as argument we can see all the information on that clicked square in inspecter tools
-    const goDisplay = document.createElement("p") // Creates a p tag and appends it on the square thats clicked on
-    goDisplay.classList.add(go) // go has "circle" as a string so we are adding the .circle css properties in this case
+    const goDisplay = document.createElement("p") // Creates a p tag 
+    goDisplay.classList.add(go) // go has "circle" as a string so we are adding the .circle css class properties to the p tag in this case
     goDisplay.innerText = "O"
     go = "cross"
-    e.target.append(goDisplay)
+    e.target.append(goDisplay) // Appends the p tag that we created above
     document.getElementById("playerClick").play()
     
     display(`CPU's turn`)
-    e.target.removeEventListener("click", addGo) // Removes the addeventlister so we cant click on the same square again
+    e.target.removeEventListener("click", addGo) // Removes the addEventlListener so we cant click on the same square again
 
     checkScore()
     
@@ -48,7 +48,7 @@ function addGo(e){ // e.target is the exact div that has been clicked on, if we 
 }
 
 function checkScore() {
-    const allSquares = document.querySelectorAll(".square") // Fetching all the div with the square class if we use console.log(allSquares) we can see a nodelist containing the divs and its name and index so we now how and what to target
+    const allSquares = document.querySelectorAll(".square") // Fetches all the div with the square class. If we use console.log(allSquares) we can see a nodelist containing the divs and its name and index so we now how and what to target
     const winningCombos = [
         [0,1,2], [3,4,5], [6,7,8],
         [0,3,6], [1,4,7], [2,5,8],
@@ -77,7 +77,7 @@ function checkScore() {
         
     })
 
-    // [...] turns allSqaures to an array since it is a nodelist and by doing that we can use the methods that we normally an use on arrays like every() that checks if every element in that array satfies gives condition
+    // [...] turns allSqaures to an array since it is a nodelist and by doing that we can use the methods that we normally can use on arrays like every() that checks if every element in that array satfies given condition
     // the first square.firstChild checks if the the div with that class square has ANY child elements, and only so will we check the other condition that if that square is a circle or cross.
     if(!isGameWon) {
         const allSquaresFilled = [...allSquares].every(square =>
@@ -114,23 +114,21 @@ function cpuMove() {
     const availableSquares = [...allSquares].filter(square => !square.firstChild)
     
     if (availableSquares.length > 0) {
-        // Randomly select an available square
         const randomSquare = availableSquares[Math.floor(Math.random() * availableSquares.length)]
-        
-        // Make CPU move (cross)
         const goDisplay = document.createElement("p")
+
         goDisplay.classList.add("cross"); // CPU is cross
         goDisplay.innerText = "X"
         randomSquare.append(goDisplay);
         document.getElementById("cpuClick").play()
-        randomSquare.removeEventListener("click", addGo); // Disable future clicks on this square
+        randomSquare.removeEventListener("click", addGo); 
 
         checkScore();
 
          // Only re-enable clicks if the game is NOT over
          if (!isGameOver()) {
-            enableUserClicks() // Re-enable clicks only if the game hasn't ended
-            go = "circle"; // Switch back to player's turn
+            enableUserClicks() 
+            go = "circle"; 
             display(`Player's turn`)
         } 
     }
@@ -170,7 +168,7 @@ function enableUserClicks() {
     const allSquares = document.querySelectorAll(".square")
     allSquares.forEach(square => {
         if (!square.firstChild) {
-            square.addEventListener("click", addGo) // Re-add the event listener to empty squares
+            square.addEventListener("click", addGo) // Re-adding the eventListener to empty squares
         }
     });
 }
