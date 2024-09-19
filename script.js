@@ -153,6 +153,7 @@ resetBtn.addEventListener("click", () => {
     display(`Player's turn`)
     enableUserClicks()
     resetBtn.innerText = "Reset Game"
+    document.getElementById("resetGame").play()
 });
 
 // Disable clicks on all squares
