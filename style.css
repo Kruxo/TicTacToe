@@ -24,6 +24,7 @@ h1 {
     text-shadow: 4px 4px 0px #ff0077, 6px 6px 10px rgba(255, 0, 119, 0.5); /* Double shadow for neon effect */
     margin-bottom: 15px;
     letter-spacing: 2px;
+    padding-top: 25px;
 }
 
 /* Info and Score Section */
@@ -158,4 +159,22 @@ button:hover {
 padding-top: 50px;
 font-size: 8px;
 text-shadow: none;
+}
+
+.header-container {
+    position: relative; /* Position relative to allow absolute positioning of the icon */
+    display: inline-block; /* Keeps the container inline with the heading */
+}
+
+#soundToggleIcon {
+    position: absolute; /* Absolute positioning inside the container */
+    top: 0; /* Align with the top of the container */
+    right: 0; /* Align to the far right */
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px; 
+}
+
+#soundToggleIcon:hover {
+    color: yellow
 }

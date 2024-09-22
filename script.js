@@ -2,6 +2,8 @@ const gameBoard = document.querySelector("#gameBoard")
 const infoDisplay = document.querySelector("#info")
 const startCells = [ "", "", "", "", "", "", "", "", ""] //9 empty cells
 const resetBtn = document.getElementById("resetBtn")
+const soundToggleIcon = document.getElementById("soundToggleIcon");
+let soundEnabled = true; // Sound is enabled by default
 let playerScore = document.getElementById("playerScore")
 let cpuScore = document.getElementById("cpuScore")
 let go = "circle"
@@ -32,8 +34,8 @@ function addGo(e){ // e.target is the exact div that has been clicked on, if we 
     goDisplay.innerText = "O"
     go = "cross"
     e.target.append(goDisplay) // Appends the p tag that we created above
-    document.getElementById("playerClick").play()
-    
+    playSound("playerClick");
+
     display(`CPU's turn`)
     e.target.removeEventListener("click", addGo) // Removes the addEventlListener so we cant click on the same square again
 
@@ -88,7 +90,7 @@ function checkScore() {
             display("It's a draw")
             disableUserClicks()
             resetBtn.innerText = "Play again!"
-            document.getElementById("draw").play();
+            playSound("draw");
         }
     }
 
@@ -99,10 +101,10 @@ function handleWin(winner) {
     display(`${winner}&nbspwins!`);
     if (winner === "Player") {
         playerScore.innerText++;
-        document.getElementById("playerWin").play();
+        playSound("playerWin");
     } else {
         cpuScore.innerText++;
-        document.getElementById("cpuWin").play();
+        playSound("cpuWin");
     }
     resetBtn.innerText = "Play again!";
 }
@@ -120,7 +122,7 @@ function cpuMove() {
         goDisplay.classList.add("cross"); // CPU is cross
         goDisplay.innerText = "X"
         randomSquare.append(goDisplay);
-        document.getElementById("cpuClick").play()
+        playSound("cpuClick");
         randomSquare.removeEventListener("click", addGo); 
 
         checkScore();
@@ -153,7 +155,7 @@ resetBtn.addEventListener("click", () => {
     display(`Player's turn`)
     enableUserClicks()
     resetBtn.innerText = "Reset Game"
-    document.getElementById("resetGame").play()
+    playSound("resetGame");
 });
 
 // Disable clicks on all squares
@@ -172,4 +174,25 @@ function enableUserClicks() {
             square.addEventListener("click", addGo) // Re-adding the eventListener to empty squares
         }
     });
+}
+
+
+soundToggleIcon.addEventListener("click", toggleSound);
+
+function toggleSound() {
+    soundEnabled = !soundEnabled; // Toggle the soundEnabled flag
+    // Update the icon depending on the state of soundEnabled
+    if (soundEnabled) {
+        soundToggleIcon.classList.remove("fa-volume-mute");
+        soundToggleIcon.classList.add("fa-volume-up");
+    } else {
+        soundToggleIcon.classList.remove("fa-volume-up");
+        soundToggleIcon.classList.add("fa-volume-mute");
+    }
+}
+
+function playSound(soundId) {
+    if (soundEnabled) {
+        document.getElementById(soundId).play(); // Play sound if enabled
+    }
 }
