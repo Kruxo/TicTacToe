@@ -19,8 +19,14 @@
 
   <body>
     <div class="header-container">
-      <h1>Tic Tac Toe</h1>
-      <i id="soundToggleIcon" class="fas fa-volume-up"></i>
+      <div>
+        <a href="" id="returnIcon">
+          <i id="returnIcon" class="fas fa-home"></i>
+        </a>
+        <i id="soundToggleIcon" class="fas fa-volume-up"></i>
+      </div>
+
+      <h1>TIC TAC TOE</h1>
     </div>
     <p id="info"></p>
     <div id="gameBoard"></div>
@@ -28,17 +34,19 @@
       >Player(O):&nbsp
       <p id="playerScore">0</p>
       &nbspCPU(X):&nbsp
-      <p id="cpuScore">0</p></span
-    >
+      <p id="cpuScore">0</p>
+      <i id="resetScoreIcon" class="fas fa-undo"></i>
+    </span>
     <button id="resetBtn">Reset Game</button>
-    <span id="credits">Hao Nguyen</span>
 
+    <audio id="playerClick" src="sounds/playerClick.mp3" preload="auto"></audio>
+    <audio id="cpuClick" src="sounds/cpuClick.mp3" preload="auto"></audio>
+    <audio id="playerWin" src="sounds/playerWin.mp3" preload="auto"></audio>
+    <audio id="cpuWin" src="sounds/cpuWin.mp3" preload="auto"></audio>
+    <audio id="draw" src="sounds/draw.mp3" preload="auto"></audio>
+    <audio id="resetGame" src="sounds/resetGame.mp3" preload="auto"></audio>
+    <audio id="onOff" src="sounds/onoff.mp3" preload="auto"></audio>
+    <audio id="onOff2" src="sounds/onoff2.mp3" preload="auto"></audio>
     <script src="script.js"></script>
-    <audio id="playerClick" src="sounds/playerClick.wav" preload="auto"></audio>
-    <audio id="cpuClick" src="sounds/cpuClick.wav" preload="auto"></audio>
-    <audio id="playerWin" src="sounds/playerWin.wav" preload="auto"></audio>
-    <audio id="cpuWin" src="sounds/cpuWin.wav" preload="auto"></audio>
-    <audio id="draw" src="sounds/draw.wav" preload="auto"></audio>
-    <audio id="resetGame" src="sounds/resetGame.wav" preload="auto"></audio>
   </body>
 </html>

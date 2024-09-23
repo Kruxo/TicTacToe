@@ -2,19 +2,23 @@ const gameBoard = document.querySelector("#gameBoard")
 const infoDisplay = document.querySelector("#info")
 const startCells = [ "", "", "", "", "", "", "", "", ""] //9 empty cells
 const resetBtn = document.getElementById("resetBtn")
-const soundToggleIcon = document.getElementById("soundToggleIcon");
-let soundEnabled = true; // Sound is enabled by default
-let playerScore = document.getElementById("playerScore")
-let cpuScore = document.getElementById("cpuScore")
+const soundToggleIcon = document.getElementById("soundToggleIcon")
+const resetScoreIcon = document.getElementById("resetScoreIcon")
+let soundEnabled = true // Sound is enabled by default
+let playerScore = parseInt(localStorage.getItem("player")) || 0
+let cpuScore = parseInt(localStorage.getItem("cpu")) || 0
+let playerScoreElement = document.getElementById("playerScore")
+let cpuScoreElement = document.getElementById("cpuScore")
 let go = "circle"
 
-display("Player's turn")
 createBoard()
+display("Player's turn")
+displayScore()
 
 function display(message) {
     const formattedMessage = message.replace(/Player/, '<p class="circle-info">Player</p>')
                                    .replace(/CPU/, '<p class="cross-info">CPU</p>')
-    infoDisplay.innerHTML = formattedMessage; 
+    infoDisplay.innerHTML = formattedMessage 
 }
 
 function createBoard() {
@@ -34,7 +38,7 @@ function addGo(e){ // e.target is the exact div that has been clicked on, if we 
     goDisplay.innerText = "O"
     go = "cross"
     e.target.append(goDisplay) // Appends the p tag that we created above
-    playSound("playerClick");
+    playSound("playerClick")
 
     display(`CPU's turn`)
     e.target.removeEventListener("click", addGo) // Removes the addEventlListener so we cant click on the same square again
@@ -44,8 +48,8 @@ function addGo(e){ // e.target is the exact div that has been clicked on, if we 
     if (!isGameOver()) {
         disableUserClicks()
         setTimeout(() => {
-            cpuMove(); 
-        }, 1000);
+            cpuMove() 
+        }, 1000)
     }
 }
 
@@ -57,24 +61,24 @@ function checkScore() {
         [0,4,8], [2,4,6]
     ]
 
-    let isGameWon = false;
+    let isGameWon = false
 
     winningCombos.forEach(array => { // We are checkning in each array (also called array) in winningCombos and then checking if each cell (also called cell) in that array for example [0,1,2] if firstchild of each cell in that array is a circle so if 0 is a cirle, and then if 1 is a circle and if 2 is a circle, then we got a winning combo
         const circleWins = array.every(cell => allSquares[cell].firstChild?.classList.contains("circle"))
         const crossWins = array.every(cell => allSquares[cell].firstChild?.classList.contains("cross"))
 
         if (circleWins) {
-            isGameWon = true;
-            handleWin("Player");
+            isGameWon = true
+            handleWin("Player")
             array.forEach(cell => {
-                allSquares[cell].classList.add('winning-square');
-            });
+                allSquares[cell].classList.add('winning-square')
+            })
         } else if (crossWins) {
-            isGameWon = true;
-            handleWin("CPU");
+            isGameWon = true
+            handleWin("CPU")
             array.forEach(cell => {
-                allSquares[cell].classList.add('winning-square');
-            });
+                allSquares[cell].classList.add('winning-square')
+            })
         }
         
     })
@@ -90,23 +94,50 @@ function checkScore() {
             display("It's a draw")
             disableUserClicks()
             resetBtn.innerText = "Play again!"
-            playSound("draw");
+            playSound("draw")
         }
     }
 
 }   
 
-function handleWin(winner) {
-    disableUserClicks();
-    display(`${winner}&nbspwins!`);
+function getScore(winner) {
     if (winner === "Player") {
-        playerScore.innerText++;
-        playSound("playerWin");
-    } else {
-        cpuScore.innerText++;
-        playSound("cpuWin");
+        playerScore++
+        localStorage.setItem("player", playerScore) // Sets updated score in localstorage
+        playerScoreElement.textContent = playerScore // Sets new score to UI
+    } else if (winner === "CPU") {
+        cpuScore++
+        localStorage.setItem("cpu", cpuScore) 
+        cpuScoreElement.textContent = cpuScore 
     }
-    resetBtn.innerText = "Play again!";
+}
+
+function handleWin(winner) {
+    disableUserClicks()
+    display(`${winner}&nbspwins!`)
+    if (winner === "Player") {
+        getScore("Player")
+        playSound("playerWin")
+    } else {
+        getScore("CPU")
+        playSound("cpuWin")
+    }
+    resetBtn.innerText = "Play again!"
+}
+
+function displayScore() {
+    playerScoreElement.textContent = playerScore
+    cpuScoreElement.textContent = cpuScore
+}
+
+resetScoreIcon.addEventListener("click", resetScore)
+
+function resetScore(){
+    localStorage.clear()
+    playerScore = 0
+    cpuScore = 0
+    playerScoreElement.textContent = playerScore
+    cpuScoreElement.textContent = cpuScore
 }
 
 function cpuMove() {
@@ -119,18 +150,18 @@ function cpuMove() {
         const randomSquare = availableSquares[Math.floor(Math.random() * availableSquares.length)]
         const goDisplay = document.createElement("p")
 
-        goDisplay.classList.add("cross"); // CPU is cross
+        goDisplay.classList.add("cross") // CPU is cross
         goDisplay.innerText = "X"
-        randomSquare.append(goDisplay);
-        playSound("cpuClick");
-        randomSquare.removeEventListener("click", addGo); 
+        randomSquare.append(goDisplay)
+        playSound("cpuClick")
+        randomSquare.removeEventListener("click", addGo) 
 
-        checkScore();
+        checkScore()
 
          // Only re-enable clicks if the game is NOT over
          if (!isGameOver()) {
             enableUserClicks() 
-            go = "circle"; 
+            go = "circle" 
             display(`Player's turn`)
         } 
     }
@@ -148,22 +179,22 @@ resetBtn.addEventListener("click", () => {
     allSquares.forEach(square => {
         square.innerHTML = "" // This removes any inner content, basically sets it to an empty string
         square.classList.remove('winning-square')
-    });
+    })
 
     // Reset the turn to "circle"
-    go = "circle";
+    go = "circle"
     display(`Player's turn`)
     enableUserClicks()
     resetBtn.innerText = "Reset Game"
-    playSound("resetGame");
-});
+    playSound("resetGame")
+})
 
 // Disable clicks on all squares
 function disableUserClicks() {
     const allSquares = document.querySelectorAll(".square")
     allSquares.forEach(square => {
-        square.removeEventListener("click", addGo); // Temporarily remove the event listener
-    });
+        square.removeEventListener("click", addGo) // Temporarily remove the event listener
+    })
 }
 
 // Re-enable clicks on empty squares
@@ -173,26 +204,32 @@ function enableUserClicks() {
         if (!square.firstChild) {
             square.addEventListener("click", addGo) // Re-adding the eventListener to empty squares
         }
-    });
+    })
 }
 
 
-soundToggleIcon.addEventListener("click", toggleSound);
+/* Sound */
+
+soundToggleIcon.addEventListener("click", toggleSound)
 
 function toggleSound() {
-    soundEnabled = !soundEnabled; // Toggle the soundEnabled flag
+    playSound("onOff")
+    soundEnabled = !soundEnabled // Toggle the soundEnabled flag
     // Update the icon depending on the state of soundEnabled
     if (soundEnabled) {
-        soundToggleIcon.classList.remove("fa-volume-mute");
-        soundToggleIcon.classList.add("fa-volume-up");
+        soundToggleIcon.classList.remove("fa-volume-mute")
+        soundToggleIcon.classList.add("fa-volume-up")
+        playSound("onOff2")
     } else {
-        soundToggleIcon.classList.remove("fa-volume-up");
-        soundToggleIcon.classList.add("fa-volume-mute");
+        soundToggleIcon.classList.remove("fa-volume-up")
+        soundToggleIcon.classList.add("fa-volume-mute")
     }
 }
 
 function playSound(soundId) {
     if (soundEnabled) {
-        document.getElementById(soundId).play(); // Play sound if enabled
+        document.getElementById(soundId).play() // Play sound if enabled
     }
 }
+
+

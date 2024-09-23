@@ -138,7 +138,7 @@ button {
     transition: transform 0.1s ease;
 }
 
-button:hover {
+button:hover{
     transform: scale(1.1); 
     background-color: #00ff99;
     color: #1a1a1a;
@@ -166,15 +166,39 @@ text-shadow: none;
     display: inline-block; /* Keeps the container inline with the heading */
 }
 
+#returnIcon {
+    position: absolute;
+    left: 0; /* Position it on the far left */
+    font-size: 24px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+}
+
 #soundToggleIcon {
     position: absolute; /* Absolute positioning inside the container */
-    top: 0; /* Align with the top of the container */
     right: 0; /* Align to the far right */
     font-size: 24px;
     cursor: pointer;
-    margin-right: 10px; 
+
 }
 
-#soundToggleIcon:hover {
-    color: yellow
+#returnIcon i, #soundToggleIcon{
+    opacity: 0.5; /* Set semi-transparency */
+    transition: opacity 0.3s ease; /* Smooth transition effect */
+}
+
+#returnIcon i:hover, #soundToggleIcon:hover{
+    opacity: 1; /* Fully visible when hovered */
+}
+
+#resetScoreIcon {
+    cursor: pointer;
+    padding-left: 20px;
+}
+
+#resetScoreIcon:hover {
+    transform: scale(1.1); 
+    color: #00ff99;
 }
